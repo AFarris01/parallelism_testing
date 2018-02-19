@@ -50,7 +50,7 @@ def sequenceFetch(urls,details=False):
     else:
         fetcher=fetchURLm
     allresults = [fetcher(url) for url in urls]
-    totalfetched = sum([len(r.content) for r in allresults])
+    totalfetched = sum([len(r.content) for r in allresults if r])
     num=len(urls)
     duration = time()-startime
     print(f"\tRetrieved a total of {totalfetched} bytes from {num} URLs in {duration:.4f}s")
@@ -63,7 +63,7 @@ def asyncFetch(urls):
     with cf.ThreadPoolExecutor() as executor:
         allresults = executor.map(fetchURLm,urls)
 
-    totalfetched = sum([len(r.content) for r in allresults])
+    totalfetched = sum([len(r.content) for r in allresults if r])
     num=len(urls)
     duration = time()-startime
     print(f"\tRetrieved a total of {totalfetched} bytes from {num} URLs in {duration:.4f}s")
@@ -76,7 +76,7 @@ def parallelFetch(urls):
     with mp.Pool() as pool:
         allresults = pool.map(fetchURLm,urls)
 
-    totalfetched = sum([len(r.content) for r in allresults])
+    totalfetched = sum([len(r.content) for r in allresults if r])
     num=len(urls)
     duration = time()-startime
     print(f"\tRetrieved a total of {totalfetched} bytes from {num} URLs in {duration:.4f}s")
